@@ -7,7 +7,7 @@ from pprint import pprint
 
 
 def github_accept_invites():
-    token = 'INSERT_TOKEN_HERE'
+    token = 'f5428b504c4cacceb4dc390262b6ff74fce943bf'
     if token == 'INSERT_TOKEN_HERE':
         print('You must created a personal access token with repo, notifications, and user scopes.')
         print('See the following link: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token')
@@ -21,16 +21,18 @@ def github_accept_invites():
     expired_invites = []
     accepted_invites = []
 
-    for inv in invites:
-        # Check if the invite has expired or not
-        if inv['expired']:
-            expired_invites.append(inv['repository']['full_name'])
-        else:
-            accepted_invites.append(inv['repository']['full_name'])
+    while invites:
+        for inv in invites:
+            # Check if the invite has expired or not
+            if inv['expired']:
+                expired_invites.append(inv['repository']['full_name'])
+            else:
+                accepted_invites.append(inv['repository']['full_name'])
 
-        # Accept all repo invites (accepting expired invites clears them)
-        inv_id = inv['id']
-        requests.patch(f'{base_url}/user/repository_invitations/{inv_id}', headers=github_headers)
+            # Accept all repo invites (accepting expired invites clears them)
+            inv_id = inv['id']
+            requests.patch(f'{base_url}/user/repository_invitations/{inv_id}', headers=github_headers)
+        invites = requests.get(f'{base_url}/user/repository_invitations', headers=github_headers).json()
 
     print("The following invitations to collaborate were accepted:")
     pprint(accepted_invites)
