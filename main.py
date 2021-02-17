@@ -7,7 +7,7 @@ from pprint import pprint
 
 
 def github_accept_invites():
-    token = 'f5428b504c4cacceb4dc390262b6ff74fce943bf'
+    token = 'INSERT_TOKEN_HERE'
     if token == 'INSERT_TOKEN_HERE':
         print('You must created a personal access token with repo, notifications, and user scopes.')
         print('See the following link: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token')
